@@ -1,0 +1,38 @@
+#1、工厂模式
+##a: 目的
+* 通过“对象的创建”绕开new，来避免对象创建（new）过程中导致的紧耦合（依赖具体的类），从而支持对象创建的稳定。
+它是接口抽象的第一步
+* 定义一个用于创建对象的接口，让子类决定实例化哪一个类
+#2、抽象工厂
+##a: 目的
+* 在软件系统中，经常面临着“一系列相互依赖的对象”的创建工作，同时，由于需求的变化，往往存在更多系列对象的创建工作。
+##b: 解决方法
+* 提供一个接口，让该接口负责创建一系列“相关或者相互依赖的对象”，无需指向它们具体的类，如：
+
+```C++
+//工厂
+class AbstractFactory{
+public:
+    virtual Ship* createShip() = 0;
+    virtual ~AbstractFactory(){}
+};
+
+//船
+class Ship{
+public:
+    Ship(ShipBody* body, Engine* engine, Weapon* weapon):m_body(body), m_engine(engine), m_weapon(weapon){}
+    virtual ~Ship(){
+        delete m_body;
+        delete m_engine;
+        delete m_weapon;
+    }
+    string getProperty(){
+        string info = m_body->getBody() + m_engine->getEngine() + m_weapon->getWeapon();
+        return info;
+    }
+private:
+    ShipBody* m_body;
+    Engine* m_engine;
+    Weapon* m_weapon;
+};
+```
